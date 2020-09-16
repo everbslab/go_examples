@@ -1,5 +1,7 @@
 package search
 
+// Implements Binary Search Algorithm.
+// Complexity: O^(log n)
 func BinarySearch(haystack []int, needle int) (bool, int) {
 	var lower int
 	var counter int
@@ -25,8 +27,6 @@ func BinarySearch(haystack []int, needle int) (bool, int) {
 	for ok := true; ok; ok = lower <= higher {
 		counter += 1
 		median := (lower + higher) / 2
-
-		// fmt.Println("-- new median = ", median)
 
 		if needle == haystack[median] {
 			return true, median
