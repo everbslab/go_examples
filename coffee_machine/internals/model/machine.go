@@ -17,6 +17,6 @@ func NewMachine(Deposit int, Milk int) *Machine {
 }
 
 // PrintState prints to stdout the Machine state
-func (c *Machine) PrintState() {
-	fmt.Printf("Coffee Machine has: \n%d of milk \n$%d of money\n", c.Milk, c.Deposit)
+func (c *Machine) PrintState() string {
+	return fmt.Sprintf("Coffee Machine has:\n%d ml of milk\n$%d of money\n", c.Milk, c.Deposit)
 }
