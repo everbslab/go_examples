@@ -1,6 +1,6 @@
 package math
 
-// Calculates AVG of slice of floats
+// AverageFloats calculates AVG of slice of floats
 func AverageFloats(args []float64) float64 {
 	var sum = SumFloats(args)
 
@@ -11,7 +11,7 @@ func AverageFloats(args []float64) float64 {
 	return sum / float64(len(args))
 }
 
-// Calculates SUM of slice of floats
+// SumFloats calculates SUM of slice of floats
 func SumFloats(args []float64) float64 {
 	var sum float64
 	size := len(args)
