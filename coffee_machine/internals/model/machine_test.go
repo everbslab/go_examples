@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -10,20 +11,23 @@ func TestMachine_PrintState(t *testing.T) {
 		Deposit int
 		Milk    int
 	}
+
+	var wanted = "Coffee Machine has:\n%d ml of milk\n$%d of money\n"
+
 	tests := []struct {
 		name   string
 		fields fields
-		want   string
 	}{
-		{"test1", fields{Deposit: 100, Milk: 50}, "Coffee Machine has:\n50 ml of milk\n$100 of money\n"},
+		{"test1", fields{Deposit: 100, Milk: 50}},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := NewMachine(tt.fields.Deposit, tt.fields.Milk)
 			got := m.PrintState()
-			if got != tt.want {
-				t.Errorf("PrintState() = `%v`.\nWant = `%v`", got, tt.want)
+			wanted := fmt.Sprintf(wanted, tt.fields.Milk, tt.fields.Deposit)
+			if got != wanted {
+				t.Errorf("PrintState() = `%v`.\nWant = `%v`", got, wanted)
 			}
 		})
 	}

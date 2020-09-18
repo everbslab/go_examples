@@ -1,5 +1,6 @@
 # Go parameters
 GOCMD=go
+GOFMT=$(GOCMD) fmt
 GOBUILD=$(GOCMD) build
 GOTEST=$(GOCMD) test
 GOCLEAN=$(GOCMD) clean
@@ -7,7 +8,10 @@ DIRBUILD=build
 
 .PHONY: build
 
-all: test build
+all: fmt test build
+
+fmt:
+	$(GOFMT) ./...
 
 test:
 	$(GOTEST) -v ./...
