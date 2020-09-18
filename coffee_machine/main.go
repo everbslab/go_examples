@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/everbslab/go_examples/coffee_machine/model"
+	"github.com/everbslab/go_examples/coffee_machine/internals/model"
 )
 
 func main() {

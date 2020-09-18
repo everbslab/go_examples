@@ -8,7 +8,7 @@ type Machine struct {
 	Milk    int
 }
 
-// Creates Machine instance
+// NewMachine creates new instance of Machine
 func NewMachine(Deposit int, Milk int) *Machine {
 	return &Machine{
 		Deposit: Deposit,
@@ -16,7 +16,7 @@ func NewMachine(Deposit int, Milk int) *Machine {
 	}
 }
 
-// Print state of Machine
+// PrintState prints to stdout the Machine state
 func (c *Machine) PrintState() {
 	fmt.Printf("Coffee Machine has: \n%d of milk \n$%d of money\n", c.Milk, c.Deposit)
 }

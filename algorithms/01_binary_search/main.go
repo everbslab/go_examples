@@ -9,11 +9,12 @@ import (
 )
 
 func main() {
-	fmt.Println("Binary Search algorithm example:")
 	binarySearchExample()
 }
 
 func binarySearchExample() {
+	fmt.Println("Binary Search algorithm example:")
+
 	sn := 1000000
 	haystack := make([]int, sn)
 	for i := 0; i <= len(haystack)-1; i++ {

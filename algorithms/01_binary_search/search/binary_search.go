@@ -1,7 +1,7 @@
 package search
 
-// Implements Binary Search Algorithm.
-// Complexity: O^(log n)
+// BinarySearch implements Binary Search Algorithm.
+// Time complexity: O^(log n)
 func BinarySearch(haystack []int, needle int) (bool, int) {
 	var lower int
 	var counter int
@@ -10,7 +10,6 @@ func BinarySearch(haystack []int, needle int) (bool, int) {
 
 	// In case if slice is empty
 	if higher < 1 {
-		// fmt.Println("WARNING: Empty slice was specified!")
 		return false, 0
 	}
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	emath "github.com/everbslab/go_examples/algorithms/internals/math"
+	emath "github.com/everbslab/go_examples/algorithms/pkg/math"
 	"os"
 	"strconv"
 )
