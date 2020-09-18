@@ -1,5 +1,5 @@
 .idea/*
-coffee_machine/build/
+build/
 *.exe
 *.test
 *.out
