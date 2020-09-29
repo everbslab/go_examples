@@ -2,7 +2,6 @@ package model
 
 import (
 	"fmt"
-	"github.com/everbslab/go_examples/coffee_machine/internals/action"
 	"reflect"
 	"strings"
 	"testing"
@@ -10,11 +9,11 @@ import (
 
 func TestMachine_PrintState(t *testing.T) {
 	type fields struct {
-		Deposit int
-		Milk    int
+		Deposit float64
+		Milk    uint
 	}
 
-	var wanted = "Coffee Machine has:\n%d ml of milk\n$%d of money"
+	var wanted = "Coffee Machine has:\n%d ml of milk\n$%.2f of money"
 
 	tests := []struct {
 		name   string
@@ -37,8 +36,8 @@ func TestMachine_PrintState(t *testing.T) {
 
 func TestNewMachine(t *testing.T) {
 	type args struct {
-		Deposit int
-		Milk    int
+		Deposit float64
+		Milk    uint
 	}
 
 	tests := []struct {
@@ -63,8 +62,8 @@ func TestNewMachine(t *testing.T) {
 
 func TestMachine_AvailableActions(t *testing.T) {
 	type fields struct {
-		Deposit int
-		Milk    int
+		Deposit float64
+		Milk    uint
 		actions []string
 	}
 
@@ -78,14 +77,14 @@ func TestMachine_AvailableActions(t *testing.T) {
 		{"actionsTwo", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []string{action.DepositAction, action.ExitAction},
-		}, strings.Join([]string{action.DepositAction, action.ExitAction}, sep)},
+			actions: []string{DepositAction, ExitAction},
+		}, strings.Join([]string{DepositAction, ExitAction}, sep)},
 
 		{"action1", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []string{action.ExitAction},
-		}, strings.Join([]string{action.ExitAction}, sep)},
+			actions: []string{ExitAction},
+		}, strings.Join([]string{ExitAction}, sep)},
 
 		{"actionNULL", fields{
 			Deposit: 100,
