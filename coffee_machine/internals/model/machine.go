@@ -5,19 +5,32 @@ import (
 	"strings"
 )
 
+type Ingredient int
+
+type Ingredients struct {
+	milk  Ingredient
+	bean  Ingredient
+	sugar Ingredient
+	cup   Ingredient
+}
+
 // Machine is the struct that represents Coffee machine domain
 type Machine struct {
 	Deposit float64
-	Milk    uint
-	actions []string
+	ing     *Ingredients
+	actions []Action
 }
 
-// NewMachine creates new instance of Machine
-func NewMachine(Deposit float64, Milk uint) *Machine {
+// New creates new instance of Machine
+func New(deposit float64, is *Ingredients) *Machine {
+	if is == nil {
+		is = &Ingredients{}
+	}
+
 	return &Machine{
-		Deposit: Deposit,
-		Milk:    Milk,
-		actions: []string{DepositAction, ExitAction, BrewAction, StatusAction},
+		Deposit: deposit,
+		ing:     is,
+		actions: []Action{DepositAction, ExitAction, BrewAction, StatusAction},
 	}
 }
 
@@ -25,12 +38,18 @@ func NewMachine(Deposit float64, Milk uint) *Machine {
 func (c *Machine) PrintState() string {
 	return fmt.Sprintf(`Coffee Machine has:
 %d ml of milk
-$%f of money`, c.Milk, c.Deposit)
+$%.2f of money`, c.ing.milk, c.Deposit)
 }
 
 // AvailableActions outputs available actions for certain Machine
 func (c *Machine) AvailableActions(sep string) string {
-	return strings.Join(c.actions, sep)
+	return strings.Join(func(as []Action) []string {
+		var ss []string
+		for _, v := range as {
+			ss = append(ss, string(v))
+		}
+		return ss
+	}(c.actions), sep)
 }
 
 // MakeExit closes the Machine

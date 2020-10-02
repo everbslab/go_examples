@@ -3,7 +3,7 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/everbslab/go_examples/coffee_machine/internals/model"
+	machine "github.com/everbslab/go_examples/coffee_machine/internals/model"
 	"go.uber.org/zap"
 	"os"
 )
@@ -16,11 +16,11 @@ func BootMachine() {
 		_ = logger.Sync()
 	}() // flushes buffer, if any
 
-	machine := model.NewMachine(500, 100)
-	fmt.Println(machine.PrintState())
+	cm := machine.New(500, nil)
+	fmt.Println(cm.PrintState())
 
 	fmt.Println("---")
-	fmt.Printf("Available actions: %s.\n", machine.AvailableActions(", "))
+	fmt.Printf("Available actions: %s.\n", cm.AvailableActions(", "))
 	fmt.Println("---")
 
 	fmt.Println("Enter action:")
@@ -31,36 +31,36 @@ func BootMachine() {
 	for scanner.Scan() {
 		text := scanner.Text()
 
-		switch text {
-		case model.ExitAction:
-			cmd := machine.MakeExit()
+		switch machine.Action(text) {
+		case machine.ExitAction:
+			cmd := cm.MakeExit()
 			if err := cmd.Execute(); err != nil {
 				logger.Fatal(err.Error())
 			}
-		case model.DepositAction:
+		case machine.DepositAction:
 			fmt.Print(":: Enter deposit value > ")
 			var am float64
 			if _, err := fmt.Scanln(&am); err != nil {
 				fmt.Println("ERROR: Wrong deposit amount.")
 			} else {
-				cmd := machine.MakeDeposit(am)
+				cmd := cm.MakeDeposit(am)
 				if err := cmd.Execute(); err != nil {
 					logger.Fatal(err.Error())
 				}
 			}
-		case model.BrewAction:
-			c := model.NewCoffee(100, 50, 2, 50, 2.50)
-			cmd := machine.MakeBrew(c)
+		case machine.BrewAction:
+			c := machine.NewCoffee(100, 50, 2, 50, 2.50)
+			cmd := cm.MakeBrew(c)
 			if err := cmd.Execute(); err == nil {
 				logger.Info("Brewing coffee succeed.")
 			} else {
 				logger.Fatal("ERROR: " + err.Error())
 			}
-		case model.StatusAction:
-			cmd := machine.MakeStatus()
+		case machine.StatusAction:
+			cmd := cm.MakeStatus()
 			_ = cmd.Execute()
 		default:
-			fmt.Printf("Unknown action. Available actions: %v.\n", machine.AvailableActions(", "))
+			fmt.Printf("Unknown action. Available actions: %v.\n", cm.AvailableActions(", "))
 		}
 
 		fmt.Print("> ")

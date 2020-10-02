@@ -30,3 +30,9 @@ build:
 clean:
 	$(GOCLEAN)
 	rm -rf ${DIRBUILD}/*
+
+docker-build:
+	@docker build . -t coffeemachine:1.0
+
+docker-run:
+	@docker run --rm -it coffeemachine:1.0 /app/coffee_machine

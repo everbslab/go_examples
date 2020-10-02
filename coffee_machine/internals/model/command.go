@@ -1,15 +1,18 @@
 package model
 
 import (
+	"errors"
 	"fmt"
 	"os"
 )
 
+type Action string
+
 const (
-	ExitAction    = "exit"
-	DepositAction = "deposit"
-	BrewAction    = "brew"
-	StatusAction  = "status"
+	ExitAction    Action = "exit"
+	DepositAction Action = "deposit"
+	BrewAction    Action = "brew"
+	StatusAction  Action = "status"
 )
 
 type Command interface {
@@ -47,8 +50,22 @@ func (c *DepositCommand) Execute() error {
 }
 
 func (c *BrewCommand) Execute() error {
-	c.M.Milk -= c.Drink.Milk
-	c.M.Deposit += c.Drink.Price
+	c.M.ing.milk -= c.Drink.milk
+	if c.M.ing.milk < 0 {
+		return errors.New("Insufficient milk.")
+	}
+
+	c.M.ing.sugar -= c.Drink.sugar
+	if c.M.ing.sugar < 0 {
+		return errors.New("Insufficient sugar.")
+	}
+
+	c.M.ing.bean -= c.Drink.beans
+	if c.M.ing.bean < 0 {
+		return errors.New("Insufficient beans.")
+	}
+
+	c.M.Deposit += c.Drink.price
 
 	return nil
 }
