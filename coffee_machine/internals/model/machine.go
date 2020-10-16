@@ -18,7 +18,7 @@ type Ingredients struct {
 type Machine struct {
 	Deposit float64
 	ing     *Ingredients
-	actions []Action
+	actions map[string]Command
 }
 
 // New creates new instance of Machine
@@ -30,7 +30,12 @@ func New(deposit float64, is *Ingredients) *Machine {
 	return &Machine{
 		Deposit: deposit,
 		ing:     is,
-		actions: []Action{DepositAction, ExitAction, BrewAction, StatusAction},
+		actions: map[string]Command{
+			depositCmd: &DepositCommand{},
+			exitCmd:    &ExitCommand{},
+			brewCmd:    &BrewCommand{},
+			statusCmd:  &StatusCommand{},
+		},
 	}
 }
 
@@ -43,12 +48,12 @@ $%.2f of money`, c.ing.milk, c.Deposit)
 
 // AvailableActions outputs available actions for certain Machine
 func (c *Machine) AvailableActions(sep string) string {
-	return strings.Join(func(as []Action) []string {
-		var ss []string
-		for _, v := range as {
-			ss = append(ss, string(v))
+	return strings.Join(func(as map[string]Command) []string {
+		s := make([]string, 0, len(as))
+		for k, _ := range as {
+			s = append(s, k)
 		}
-		return ss
+		return s
 	}(c.actions), sep)
 }
 
@@ -60,9 +65,9 @@ func (c *Machine) MakeExit() Command {
 }
 
 // MakeDeposit updates the state with deposit amount
-func (c *Machine) MakeDeposit(amount float64) Command {
+func (c *Machine) MakeDeposit(am float64) Command {
 	return &DepositCommand{
-		Amount: amount,
+		Amount: am,
 		M:      c,
 	}
 }
@@ -78,4 +83,15 @@ func (c *Machine) MakeStatus() Command {
 	return &StatusCommand{
 		M: c,
 	}
+}
+
+func (c *Machine) ExecCommand(cmd string) error {
+	if command := c.actions[cmd]; command == nil {
+		fmt.Println(c.AvailableActions(", "))
+	} else {
+		err := command.Execute()
+		return err
+	}
+
+	return nil
 }

@@ -31,37 +31,38 @@ func BootMachine() {
 	for scanner.Scan() {
 		text := scanner.Text()
 
-		switch machine.Action(text) {
-		case machine.ExitAction:
-			cmd := cm.MakeExit()
-			if err := cmd.Execute(); err != nil {
-				logger.Fatal(err.Error())
-			}
-		case machine.DepositAction:
-			fmt.Print(":: Enter deposit value > ")
-			var am float64
-			if _, err := fmt.Scanln(&am); err != nil {
-				fmt.Println("ERROR: Wrong deposit amount.")
-			} else {
-				cmd := cm.MakeDeposit(am)
-				if err := cmd.Execute(); err != nil {
-					logger.Fatal(err.Error())
-				}
-			}
-		case machine.BrewAction:
-			c := machine.NewCoffee(100, 50, 2, 50, 2.50)
-			cmd := cm.MakeBrew(c)
-			if err := cmd.Execute(); err == nil {
-				logger.Info("Brewing coffee succeed.")
-			} else {
-				logger.Fatal("ERROR: " + err.Error())
-			}
-		case machine.StatusAction:
-			cmd := cm.MakeStatus()
-			_ = cmd.Execute()
-		default:
-			fmt.Printf("Unknown action. Available actions: %v.\n", cm.AvailableActions(", "))
+		if err := cm.ExecCommand(text); err != nil {
+			logger.Fatal(err.Error())
 		}
+
+		//switch text {
+		//case machine.exitCmd:
+		//	err := cm.MakeExit().Execute()
+		//	failOnError(err)
+		//case machine.depositCmd:
+		//	cmd := cm.MakeDeposit()
+		//	fmt.Print(":: Enter deposit value > ")
+		//	var am float64
+		//	if _, err := fmt.Scanln(&am); err != nil {
+		//		fmt.Println("ERROR: Wrong deposit amount.")
+		//	} else {
+		//		err := cmd.Execute()
+		//		failOnError(err)
+		//	}
+		//case machine.brewCmd:
+		//	c := machine.NewCoffee(100, 50, 2, 50, 2.50)
+		//	cmd := cm.MakeBrew(c)
+		//	if err := cmd.Execute(); err == nil {
+		//		logger.Info("Brewing coffee succeed.")
+		//	} else {
+		//		logger.Fatal("ERROR: " + err.Error())
+		//	}
+		//case machine.statusCmd:
+		//	err := cm.MakeStatus().Execute()
+		//	failOnError(err)
+		//default:
+		//	fmt.Printf("Unknown action. Available actions: %v.\n", cm.AvailableActions(", "))
+		//}
 
 		fmt.Print("> ")
 	}

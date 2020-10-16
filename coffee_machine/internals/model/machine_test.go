@@ -64,7 +64,7 @@ func TestMachine_AvailableActions(t *testing.T) {
 	type fields struct {
 		Deposit float64
 		Milk    uint
-		actions []Action
+		actions []Command
 	}
 
 	var sep = ", "
@@ -77,19 +77,19 @@ func TestMachine_AvailableActions(t *testing.T) {
 		{"actionsTwo", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Action{DepositAction, ExitAction},
+			actions: []Command{depositCmd, exitCmd},
 		}, strings.Join([]string{"deposit", "exit"}, sep)},
 
 		{"action1", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Action{ExitAction},
+			actions: []Command{exitCmd},
 		}, strings.Join([]string{"exit"}, sep)},
 
 		{"actionNULL", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Action{},
+			actions: []Command{},
 		}, strings.Join([]string{}, sep)},
 	}
 	for _, tt := range tests {

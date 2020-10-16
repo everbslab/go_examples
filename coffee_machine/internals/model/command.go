@@ -6,13 +6,11 @@ import (
 	"os"
 )
 
-type Action string
-
 const (
-	ExitAction    Action = "exit"
-	DepositAction Action = "deposit"
-	BrewAction    Action = "brew"
-	StatusAction  Action = "status"
+	exitCmd    string = "exit"
+	depositCmd string = "deposit"
+	brewCmd    string = "brew"
+	statusCmd  string = "status"
 )
 
 type Command interface {
@@ -52,17 +50,17 @@ func (c *DepositCommand) Execute() error {
 func (c *BrewCommand) Execute() error {
 	c.M.ing.milk -= c.Drink.milk
 	if c.M.ing.milk < 0 {
-		return errors.New("Insufficient milk.")
+		return errors.New("insufficient milk")
 	}
 
 	c.M.ing.sugar -= c.Drink.sugar
 	if c.M.ing.sugar < 0 {
-		return errors.New("Insufficient sugar.")
+		return errors.New("insufficient sugar")
 	}
 
 	c.M.ing.bean -= c.Drink.beans
 	if c.M.ing.bean < 0 {
-		return errors.New("Insufficient beans.")
+		return errors.New("insufficient beans")
 	}
 
 	c.M.Deposit += c.Drink.price
