@@ -64,7 +64,7 @@ func TestMachine_AvailableActions(t *testing.T) {
 	type fields struct {
 		Deposit float64
 		Milk    uint
-		actions []Command
+		actions map[string]Command
 	}
 
 	var sep = ", "
@@ -74,22 +74,27 @@ func TestMachine_AvailableActions(t *testing.T) {
 		fields fields
 		want   string
 	}{
-		{"actionsTwo", fields{
+		{"actionsTwoOptions", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Command{depositCmd, exitCmd},
-		}, strings.Join([]string{"deposit", "exit"}, sep)},
+			actions: map[string]Command{
+				exitCmd:    &ExitCommand{},
+				depositCmd: &DepositCommand{},
+			},
+		}, strings.Join([]string{exitCmd, depositCmd}, sep)},
 
-		{"action1", fields{
+		{"actionOnlyOne", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Command{exitCmd},
-		}, strings.Join([]string{"exit"}, sep)},
+			actions: map[string]Command{
+				exitCmd: &ExitCommand{},
+			},
+		}, strings.Join([]string{exitCmd}, sep)},
 
 		{"actionNULL", fields{
 			Deposit: 100,
 			Milk:    50,
-			actions: []Command{},
+			actions: map[string]Command{},
 		}, strings.Join([]string{}, sep)},
 	}
 	for _, tt := range tests {
@@ -99,7 +104,7 @@ func TestMachine_AvailableActions(t *testing.T) {
 				actions: tt.fields.actions,
 			}
 			if got := c.AvailableActions(sep); got != tt.want {
-				t.Errorf("AvailableActions() = %v, want %v", got, tt.want)
+				t.Errorf("AvailableActions() = %v, want: %v", got, tt.want)
 			}
 		})
 	}
