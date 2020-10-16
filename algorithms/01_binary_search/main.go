@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github/everbslab/go_examples/algorithms/search"
+	"github.com/everbslab/go_examples/algorithms/search"
 	"math"
 	"math/rand"
 	"time"

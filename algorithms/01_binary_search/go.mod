@@ -1,3 +1,3 @@
-module github/everbslab/go_examples/algorithms
+module github.com/everbslab/go_examples/algorithms
 
 go 1.15
