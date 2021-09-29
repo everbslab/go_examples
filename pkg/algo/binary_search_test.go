@@ -16,7 +16,6 @@ type testpair struct {
 var tests = []testpair{
 	{[]int{}, 0, false},    // empty haystack validation
 	{[]int{1, 2}, 1, true}, // lower check
-	{[]int{1, 2}, 2, true},
 	{[]int{1, 2}, 0, false},
 	{[]int{0, 1, 2, 3, 4, 5, 6}, 3, true},
 	{[]int{0, 1, 2, 3, 4, 5, 6}, 4, true},
@@ -24,13 +23,14 @@ var tests = []testpair{
 	{[]int{0, 1, 2, 3, 4, 5, 6}, 6, true}, // higher check
 	{[]int{0, 1, 2, 3, 4, 5, 6}, 7, false},
 	{[]int{0, 1, 2, 3, 4, 5, 6}, -1, false},
+	{[]int{10, 1, 3, 4, 0, 8, 6}, 8, true}, // unsorted slice
 }
 
 func TestBinarySearch(t *testing.T) {
 	for _, ti := range tests {
-		isFound, _ := BinarySearch(ti.haystack, ti.needle)
+		_, ok := BinarySearch(ti.haystack, ti.needle)
 
-		assert.Equal(t, ti.expected, isFound)
+		assert.Equal(t, ti.expected, ok)
 	}
 }
 
