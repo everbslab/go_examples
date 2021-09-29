@@ -2,13 +2,18 @@ package main
 
 import (
 	"fmt"
-	emath "github.com/everbslab/go_examples/algorithms/pkg/math"
+	"github.com/everbslab/go_examples/pkg/calc"
 	"os"
 	"strconv"
 )
 
 func main() {
 	args := os.Args[1:]
+
+	if len(args) < 1 {
+		fmt.Println("Insufficient arguments passed")
+		os.Exit(1)
+	}
 
 	fs := make([]float64, len(args))
 
@@ -21,8 +26,7 @@ func main() {
 		}
 	}
 
-	ra := emath.AverageFloats(fs)
-	rs := emath.SumFloats(fs)
+	ra, rs := calc.AverageFloats(fs), calc.SumFloats(fs)
 
 	fmt.Printf("Avg of %v = %.2f\n", args, ra)
 	fmt.Printf("Sum of %v = %.2f\n", args, rs)

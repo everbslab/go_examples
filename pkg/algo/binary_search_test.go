@@ -1,6 +1,7 @@
-package search
+package algo
 
 import (
+	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"testing"
 	"time"
@@ -9,7 +10,7 @@ import (
 type testpair struct {
 	haystack []int
 	needle   int
-	Expected bool
+	expected bool
 }
 
 var tests = []testpair{
@@ -26,16 +27,10 @@ var tests = []testpair{
 }
 
 func TestBinarySearch(t *testing.T) {
-	for _, pair := range tests {
-		ok, _ := BinarySearch(pair.haystack, pair.needle)
+	for _, ti := range tests {
+		isFound, _ := BinarySearch(ti.haystack, ti.needle)
 
-		if ok != pair.Expected {
-			t.Error(
-				"For haystack", pair.haystack, "and needle", pair.needle,
-				"expected", pair.Expected,
-				"got", ok,
-			)
-		}
+		assert.Equal(t, ti.expected, isFound)
 	}
 }
 
@@ -48,13 +43,13 @@ func BenchmarkBinarySearch(b *testing.B) {
 }
 
 func BenchmarkBinarySearch1Mln(b *testing.B) {
-	sn := 1000000
+	sn := 1_000_000
 	haystack := make([]int, sn)
 	for i := 0; i <= len(haystack)-1; i++ {
 		haystack[i] = i
 	}
 
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	b.ResetTimer()
 
@@ -65,13 +60,13 @@ func BenchmarkBinarySearch1Mln(b *testing.B) {
 }
 
 func BenchmarkBinarySearch100mln(b *testing.B) {
-	sn := 100000000
+	sn := 100_000_000
 	haystack := make([]int, sn)
 	for i := 0; i <= len(haystack)-1; i++ {
 		haystack[i] = i
 	}
 
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	b.ResetTimer()
 

@@ -1,0 +1,6 @@
+
+.go-lint:
+	golangci-lint run ./...
+
+.go-test:
+	go test ./...

@@ -1,4 +1,4 @@
-package search
+package algo
 
 // BinarySearch implements Binary Search Algorithm.
 // Time complexity: O^(log n)
