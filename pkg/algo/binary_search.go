@@ -10,9 +10,9 @@ func BinarySearch(haystack []int, needle int) (int, bool) {
 	var lower int
 	var counter int
 
-	if sort.SliceIsSorted(haystack, func(i, j int) bool {
+	if !sort.SliceIsSorted(haystack, func(i, j int) bool {
 		return haystack[i] < haystack[j]
-	}) == false {
+	}) {
 		sort.Ints(haystack)
 	}
 

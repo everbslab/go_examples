@@ -1,8 +1,6 @@
-
-.go-lint:
+go-lint:
 	golangci-lint run ./...
 
-.PHONY: go-test
-.go-test:
+go-test:
 	go test ./pkg/...
 	go test -cover ./pkg/...
